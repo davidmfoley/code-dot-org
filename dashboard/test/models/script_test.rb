@@ -82,59 +82,6 @@ class ScriptTest < ActiveSupport::TestCase
     assert_equal SharedCourseConstants::PUBLISHED_STATE.preview, course_version.published_state
   end
 
-  test 'cannot rename a unit without a new_name' do
-    l = create :level
-    dsl = <<-UNIT
-      lesson 'Lesson1', display_name: 'Lesson1'
-      level '#{l.name}'
-    UNIT
-    old_unit = Script.add_unit(
-      {name: 'old unit name'},
-      ScriptDSL.parse(dsl, 'a filename')[0][:lesson_groups]
-    )
-    assert_equal 'old unit name', old_unit.name
-
-    new_unit = Script.add_unit(
-      {name: 'new unit name'},
-      ScriptDSL.parse(dsl, 'a filename')[0][:lesson_groups]
-    )
-    assert_equal 'new unit name', new_unit.name
-
-    # a new unit was created
-    refute_equal old_unit.id, new_unit.id
-  end
-
-  test 'can rename a unit between original name and new_name' do
-    l = create :level
-    dsl = <<-UNIT
-      lesson 'Lesson1', display_name: 'Lesson1'
-      level '#{l.name}'
-    UNIT
-    old_unit = Script.add_unit(
-      {name: 'old unit name', new_name: 'new unit name'},
-      ScriptDSL.parse(dsl, 'a filename')[0][:lesson_groups]
-    )
-    assert_equal 'old unit name', old_unit.name
-
-    new_unit = Script.add_unit(
-      {name: 'new unit name', new_name: 'new unit name'},
-      ScriptDSL.parse(dsl, 'a filename')[0][:lesson_groups]
-    )
-    assert_equal 'new unit name', new_unit.name
-
-    # the old unit was renamed
-    assert_equal old_unit.id, new_unit.id
-
-    old_unit = Script.add_unit(
-      {name: 'old unit name', new_name: 'new unit name'},
-      ScriptDSL.parse(dsl, 'a filename')[0][:lesson_groups]
-    )
-    assert_equal 'old unit name', old_unit.name
-
-    # the unit was renamed back to the old name
-    assert_equal old_unit.id, new_unit.id
-  end
-
   test 'can setup migrated unit with new models' do
     Script.stubs(:unit_json_directory).returns(File.join(self.class.fixture_path, 'config', 'scripts_json'))
 

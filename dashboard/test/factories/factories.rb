@@ -770,7 +770,7 @@ FactoryGirl.define do
           section = lesson.lesson_activities.first.activity_sections.first
           evaluator.levels_count.times do
             level = create(:level)
-            create :script_level, levels: [level], lesson: lesson, activity_section: section
+            create :script_level, levels: [level], activity_section: section
           end
         end
       end
@@ -832,7 +832,7 @@ FactoryGirl.define do
 
   factory :script_level do
     script do |script_level|
-      script_level.lesson&.script || create(:script)
+      script_level.activity_section&.lesson&.script || script_level.lesson&.script || create(:script)
     end
 
     trait :assessment do
@@ -840,7 +840,7 @@ FactoryGirl.define do
     end
 
     lesson do |script_level|
-      create(:lesson, script: script_level.script)
+      script_level.activity_section&.lesson || create(:lesson, script: script_level.script)
     end
 
     trait :with_autoplay_video do

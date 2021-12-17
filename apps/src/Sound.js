@@ -87,6 +87,12 @@ Sound.prototype.play = function(options) {
     } else {
       this.playableBuffers[index].noteOn(0);
     }
+
+    console.log("playing sound.  audioContext state is", this.audioContext.state);
+    if (['suspended', 'interrupted'].includes(this.audioContext.state)) {
+      // this.audioContext.resume();
+    }
+
     this.handlePlayStarted(options);
     return;
   }

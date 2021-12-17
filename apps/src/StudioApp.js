@@ -2039,10 +2039,10 @@ StudioApp.prototype.configureDom = function(config) {
   var resetButton = container.querySelector('#resetButton');
   var runClick = this.runButtonClick.bind(this);
   var clickWrapper = config.runButtonClickWrapper || runButtonClickWrapper;
-  var throttledRunClick = _.debounce(clickWrapper.bind(null, runClick), 250, {
+  var throttledRunClick = clickWrapper.bind(null, runClick); /*_.debounce(clickWrapper.bind(null, runClick), 250, {
     leading: true,
     trailing: false
-  });
+  });*/
   if (runButton && resetButton) {
     dom.addClickTouchEvent(runButton, _.bind(throttledRunClick, this));
     dom.addClickTouchEvent(resetButton, _.bind(this.resetButtonClick, this));

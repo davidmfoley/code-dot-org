@@ -88,7 +88,7 @@ module.exports = Dance;
 Dance.prototype.injectStudioApp = function(studioApp) {
   this.studioApp_ = studioApp;
   this.studioApp_.reset = this.reset.bind(this);
-  this.studioApp_.runButtonClick = this.runButtonClick.bind(this);
+  this.studioApp_.runButtonClick = this.runButtonClickSync.bind(this);
 
   this.studioApp_.setCheckForEmptyBlocks(true);
 };
@@ -507,6 +507,14 @@ Dance.prototype.onReportComplete = function(response) {
   this.studioApp_.onReportComplete(response);
   this.displayFeedback_();
 };
+
+Dance.prototype.runButtonClickSync = function() {
+  console.log("run button pressed: ", Sounds.getSingleton().audioContext.state);
+  Sounds.getSingleton().audioContext.resume().then(function(value) {
+    console.log("resume finished: ", Sounds.getSingleton().audioContext.state, value);
+  });
+  this.runButtonClick();
+}
 
 /**
  * Click the run button.  Start the program.

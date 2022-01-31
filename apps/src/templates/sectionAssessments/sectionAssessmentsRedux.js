@@ -716,7 +716,7 @@ export const getStudentsMCandMatchSummaryForCurrentAssessment = state => {
 
   // Get a set of all students from sectionDataRedux.
   let allStudentsByIds = {};
-  state.sectionData.section.students.forEach(student => {
+  state.teacherSections.selectedStudents.forEach(student => {
     allStudentsByIds[student.id] = {
       student_name: student.name,
       responses_by_assessment: {}

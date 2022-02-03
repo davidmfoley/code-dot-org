@@ -257,6 +257,8 @@ export const fakeProgressTableReduxInitialState = (
     students
   );
 
+  const sectionId = 1;
+
   return {
     progress: {
       lessonGroups: [],
@@ -264,8 +266,10 @@ export const fakeProgressTableReduxInitialState = (
       focusAreaLessonIds: [],
       professionalLearningCourse: false
     },
-    sectionData: {
-      section: fakeSection(students)
+    teacherSections: {
+      sections: [{id: sectionId}],
+      selectedSectionId: 1,
+      selectedStudents: students
     },
     sectionProgress: {
       unitDataByUnit: {[scriptData.id]: scriptData},

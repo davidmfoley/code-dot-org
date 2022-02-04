@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import {SET_SECTION} from '@cdo/apps/redux/sectionDataRedux';
 
 // Shape for an individual text response
 export const textResponsePropType = PropTypes.shape({
@@ -66,14 +65,6 @@ export const asyncLoadTextResponses = (
 };
 
 export default function textResponses(state = initialState, action) {
-  if (action.type === SET_SECTION) {
-    // Setting the section is the first action to be called when switching
-    // sections, which requires us to reset our state. This might need to change
-    // once switching sections is in react/redux.
-    return {
-      ...initialState
-    };
-  }
   if (action.type === SET_TEXT_RESPONSES) {
     return {
       ...state,

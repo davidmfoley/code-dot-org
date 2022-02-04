@@ -5,26 +5,9 @@ import textResponses, {
   finishLoadingResponses,
   convertTextResponseServerData
 } from '@cdo/apps/templates/textResponses/textResponsesRedux';
-import {setSection} from '@cdo/apps/redux/sectionDataRedux';
 
 describe('textResponsesRedux', () => {
   const initialState = textResponses(undefined, {});
-
-  describe('setSection', () => {
-    it('resets all other state to initialState', () => {
-      const currentState = {
-        isLoadingResponses: true,
-        responseDataByScript: {
-          1: {question: 'Question 1', response: 'Response 1'},
-          2: {question: 'Question 2', response: 'Response 2'}
-        }
-      };
-      const newSection = {id: 2, students: []};
-      const action = setSection(newSection);
-      const nextState = textResponses(currentState, action);
-      assert.deepEqual(nextState, initialState);
-    });
-  });
 
   describe('setTextResponses', () => {
     it('associates the response data to the correct script', () => {
